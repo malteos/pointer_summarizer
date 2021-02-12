@@ -74,3 +74,19 @@ https://github.com/atulkum/pointer_summarizer/blob/master/data_util/batcher.py#L
 8) [Clickbait? Sensational Headline Generation with Auto-tuned Reinforcement Learning](https://arxiv.org/abs/1909.03582)  ***EMNLP'2019*** https://github.com/HLTCHKUST/sensational_headline
 9) [Abstractive Spoken Document Summarization using Hierarchical Model with Multi-stage Attention Diversity Optimization](http://www.interspeech2020.org/index.php?m=content&c=index&a=show&catid=354&id=1173) ***INTERSPEECH 2020***
 
+## Install
+
+
+Download dataset https://github.com/JafferWilson/Process-Data-of-CNN-DailyMail (finished files)
+
+```bash
+conda create -n pointer_summarizer python=2.7
+conda activate pointer_summarizer
+pip install torch==0.4.0 tensorflow==1.12.0 tqdm
+
+```
+
+Run with
+```bash
+python -m training_ptr_gen.train
+```
