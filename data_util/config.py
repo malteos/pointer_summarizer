@@ -1,6 +1,6 @@
 import os
 
-root_dir = os.path.expanduser("~")
+root_dir = './data'
 
 #train_data_path = os.path.join(root_dir, "ptr_nw/cnn-dailymail-master/finished_files/train.bin")
 train_data_path = os.path.join(root_dir, "ptr_nw/cnn-dailymail-master/finished_files/chunked/train_*")
@@ -35,4 +35,4 @@ max_iterations = 500000
 use_gpu=True
 
 lr_coverage=0.15
-use_lstm=False
+use_lstm=True
