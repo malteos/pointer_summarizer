@@ -6,6 +6,8 @@ import argparse
 
 import tensorflow as tf
 import torch
+from tqdm.auto import tqdm
+
 from model import Model
 from torch.nn.utils import clip_grad_norm_
 
@@ -120,7 +122,9 @@ class Train(object):
     def trainIters(self, n_iters, model_file_path=None):
         iter, running_avg_loss = self.setup_train(model_file_path)
         start = time.time()
-        while iter < n_iters:
+
+        for iter in tqdm(range(n_iters), total=n_iters, desc='Training'):
+
             batch = self.batcher.next_batch()
             loss = self.train_one_batch(batch)
 
