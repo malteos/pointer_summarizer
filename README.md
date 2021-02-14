@@ -63,3 +63,16 @@ Papaers using this code:
 2) [Automatic Fact-guided Sentence Modification](https://arxiv.org/abs/1909.13838)
 
 
+---
+
+Rouge
+
+```bash
+git clone git@github.com:andersjo/pyrouge.git
+cd pyrouge
+pyrouge_set_rouge_path /home/mostendorff/experiments/pyrouge/tools/ROUGE-1.5.5
+cd tools/ROUGE-1.5.5/data
+mv WordNet-2.0.exc.db WordNet-2.0.exc.db__bak
+./WordNet-2.0-Exceptions/buildExeptionDB.pl ./WordNet-2.0-Exceptions ./smart_common_words.txt ./WordNet-2.0.exc.db
+
+```

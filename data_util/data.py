@@ -7,13 +7,13 @@ import csv
 from tensorflow.core.example import example_pb2
 
 # <s> and </s> are used in the data files to segment the abstracts into sentences. They don't receive vocab ids.
-SENTENCE_START = b'<s>'
-SENTENCE_END = b'</s>'
+SENTENCE_START = '<s>'
+SENTENCE_END = '</s>'
 
-PAD_TOKEN = b'[PAD]'  # This has a vocab id, which is used to pad the encoder input, decoder input and target sequence
-UNKNOWN_TOKEN = b'[UNK]'  # This has a vocab id, which is used to represent out-of-vocabulary words
-START_DECODING = b'[START]'  # This has a vocab id, which is used at the start of every decoder input sequence
-STOP_DECODING = b'[STOP]'  # This has a vocab id, which is used at the end of untruncated target sequences
+PAD_TOKEN = '[PAD]'  # This has a vocab id, which is used to pad the encoder input, decoder input and target sequence
+UNKNOWN_TOKEN = '[UNK]'  # This has a vocab id, which is used to represent out-of-vocabulary words
+START_DECODING = '[START]'  # This has a vocab id, which is used at the start of every decoder input sequence
+STOP_DECODING = '[STOP]'  # This has a vocab id, which is used at the end of untruncated target sequences
 
 
 # Note: none of <s>, </s>, [PAD], [UNK], [START], [STOP] should appear in the vocab file.
@@ -79,6 +79,7 @@ class Vocab(object):
 
 def example_generator(data_path, single_pass):
     while True:
+        # print(data_path)
         filelist = glob.glob(data_path)  # get the list of datafiles
         assert filelist, ('Error: Empty filelist at %s' % data_path)  # check filelist isn't empty
         if single_pass:
@@ -92,6 +93,7 @@ def example_generator(data_path, single_pass):
                 if not len_bytes: break  # finished reading this file
                 str_len = struct.unpack('q', len_bytes)[0]
                 example_str = struct.unpack('%ds' % str_len, reader.read(str_len))[0]
+                # example_str = example_str.decode('utf-8')
                 yield example_pb2.Example.FromString(example_str)
         if single_pass:
             print("example_generator completed reading all datafiles. No more data.")
@@ -111,6 +113,11 @@ def article2ids(article_words, vocab):
             ids.append(vocab.size() + oov_num)  # This is e.g. 50000 for the first article OOV, 50001 for the second...
         else:
             ids.append(i)
+
+    # print(article_words)
+    # print(oovs)
+    # print(ids)
+
     return ids, oovs
 
 

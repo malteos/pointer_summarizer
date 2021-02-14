@@ -1,6 +1,9 @@
 import os
 
-root_dir = '/home/mostendorff/experiments/pointer_summarizer/data'
+# root_dir = '/home/mostendorff/experiments/pointer_summarizer/data'
+
+root_dir = './data'
+
 
 #train_data_path = os.path.join(root_dir, "ptr_nw/cnn-dailymail-master/finished_files/train.bin")
 train_data_path = os.path.join(root_dir, "ptr_nw/cnn-dailymail-master/finished_files/chunked/train_*")

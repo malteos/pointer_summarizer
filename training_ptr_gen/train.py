@@ -6,7 +6,7 @@ import argparse
 from tqdm.auto import tqdm
 import tensorflow as tf
 import torch
-from model import Model
+from training_ptr_gen.model import Model
 from torch.nn.utils import clip_grad_norm_
 
 from torch.optim import Adagrad
@@ -15,7 +15,7 @@ from data_util import config
 from data_util.batcher import Batcher
 from data_util.data import Vocab
 from data_util.utils import calc_running_avg_loss
-from train_util import get_input_from_batch, get_output_from_batch
+from training_ptr_gen.train_util import get_input_from_batch, get_output_from_batch
 
 use_cuda = config.use_gpu and torch.cuda.is_available()
 
@@ -81,17 +81,34 @@ class Train(object):
 
         self.optimizer.zero_grad()
 
+        # enc_batch_size = enc_batch.size()
+        # enc_padding_mask_size = enc_padding_mask.size()
+        # #enc_lens_size = enc_lens.size()
+        # enc_batch_extend_vocab_size = enc_batch_extend_vocab.size()
+        # extra_zeros_size = extra_zeros.size()
+        # c_t_1_size = c_t_1.size()
+        # # coverage_size = coverage.size()
+        #
+        # dec_batch_size = dec_batch.size()
+        #
+        # dec_padding_mask_size = dec_padding_mask.size()
+        # # max_dec_len_size = max_dec_len.size()\
+        # dec_lens_var_size = dec_lens_var.size()
+        # target_batch_size = target_batch.size()
+
         encoder_outputs, encoder_feature, encoder_hidden = self.model.encoder(enc_batch, enc_lens, enc_padding_mask)
         s_t_1 = self.model.reduce_state(encoder_hidden)
 
         step_losses = []
         for di in range(min(max_dec_len, config.max_dec_steps)):
+            target = target_batch[:, di]
             y_t_1 = dec_batch[:, di]  # Teacher forcing
+
             final_dist, s_t_1,  c_t_1, attn_dist, p_gen, next_coverage = self.model.decoder(y_t_1, s_t_1,
                                                         encoder_outputs, encoder_feature, enc_padding_mask, c_t_1,
                                                         extra_zeros, enc_batch_extend_vocab,
                                                                            coverage, di)
-            target = target_batch[:, di]
+
             gold_probs = torch.gather(final_dist, 1, target.unsqueeze(1)).squeeze()
             step_loss = -torch.log(gold_probs + config.eps)
             if config.is_coverage:

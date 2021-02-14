@@ -32,7 +32,7 @@ class Example(object):
                           article_words]  # list of word ids; OOVs are represented by the id for UNK token
 
         # Process the abstract
-        abstract = b' '.join(abstract_sentences)  # string
+        abstract = ' '.join(abstract_sentences)  # string
         abstract_words = abstract.split()  # list of strings
         abs_ids = [vocab.word2id(w) for w in
                    abstract_words]  # list of word ids; OOVs are represented by the id for UNK token
@@ -221,8 +221,11 @@ class Batcher(object):
                 else:
                     raise Exception("single_pass mode is off but the example generator is out of data; error.")
 
+            # print(abstract)
             abstract_sentences = [sent.strip() for sent in data.abstract2sents(
                 abstract)]  # Use the <s> and </s> tags in abstract to get a list of sentences.
+
+            # print(abstract_sentences)
             example = Example(article, abstract_sentences, self._vocab)  # Process into an Example.
             self._example_queue.put(example)  # place the Example in the example queue.
 
@@ -287,6 +290,9 @@ class Batcher(object):
                     # tf.logging.warning('Found an example with empty article text. Skipping it.')
                     continue
                 else:
+                    article_text = article_text.decode('utf-8')
+                    abstract_text = abstract_text.decode('utf-8')
+
                     yield (article_text, abstract_text)
             except StopIteration:
                 print('stop iteration...')
