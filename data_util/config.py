@@ -1,6 +1,6 @@
 import os
 
-root_dir = './data'
+root_dir = '/home/mostendorff/experiments/pointer_summarizer/data'
 
 #train_data_path = os.path.join(root_dir, "ptr_nw/cnn-dailymail-master/finished_files/train.bin")
 train_data_path = os.path.join(root_dir, "ptr_nw/cnn-dailymail-master/finished_files/chunked/train_*")
@@ -25,7 +25,7 @@ rand_unif_init_mag=0.02
 trunc_norm_init_std=1e-4
 max_grad_norm=2.0
 
-pointer_gen = True
+pointer_gen = False
 is_coverage = False
 cov_loss_wt = 1.0
 

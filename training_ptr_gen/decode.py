@@ -75,6 +75,7 @@ class BeamSearch(object):
         counter = 0
         batch = self.batcher.next_batch()
         while batch is not None:
+            break
             # Run beam search to get best Hypothesis
             best_summary = self.beam_search(batch)
 
@@ -82,8 +83,9 @@ class BeamSearch(object):
             output_ids = [int(t) for t in best_summary.tokens[1:]]
             decoded_words = data.outputids2words(output_ids, self.vocab,
                                                  (batch.art_oovs[0] if config.pointer_gen else None))
-            print(decoded_words)
-            print([type(w) for w in decoded_words])
+            #print(decoded_words)
+            #print([type(w) for w in decoded_words])
+            decoded_words = [w.decode('utf-8') for w in decoded_words]
 
             # Remove the [STOP] token from decoded_words, if necessary
             try:
@@ -93,6 +95,8 @@ class BeamSearch(object):
                 decoded_words = decoded_words
 
             original_abstract_sents = batch.original_abstracts_sents[0]
+            #print(original_abstract_sents)
+            original_abstract_sents = [s.decode('utf-8') for s in original_abstract_sents]
 
             write_for_rouge(original_abstract_sents, decoded_words, counter,
                             self._rouge_ref_dir, self._rouge_dec_dir)
