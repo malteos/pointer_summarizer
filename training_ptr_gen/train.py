@@ -3,7 +3,7 @@ from __future__ import unicode_literals, print_function, division
 import os
 import time
 import argparse
-
+from tqdm.auto import tqdm
 import tensorflow as tf
 import torch
 from model import Model
@@ -120,8 +120,9 @@ class Train(object):
     def trainIters(self, n_iters, model_file_path=None):
         iter, running_avg_loss = self.setup_train(model_file_path)
         start = time.time()
-        while iter < n_iters:
-            print(iter)
+        #while iter < n_iters:
+        for iter in tqdm(range(n_iters), total=n_iters, desc='Train'):
+            #print(iter)
 
             batch = self.batcher.next_batch()
             loss = self.train_one_batch(batch)
