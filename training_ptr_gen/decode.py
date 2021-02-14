@@ -82,6 +82,8 @@ class BeamSearch(object):
             output_ids = [int(t) for t in best_summary.tokens[1:]]
             decoded_words = data.outputids2words(output_ids, self.vocab,
                                                  (batch.art_oovs[0] if config.pointer_gen else None))
+            print(decoded_words)
+            print([type(w) for w in decoded_words])
 
             # Remove the [STOP] token from decoded_words, if necessary
             try:
