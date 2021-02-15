@@ -11,11 +11,11 @@ from torch.nn.utils import clip_grad_norm_
 
 from torch.optim import Adagrad
 
-from data_util import config
-from data_util.batcher import Batcher
+from data_util import xing_config as config
+from data_util.xing_batcher import XingBatcher as Batcher
 from data_util.data import Vocab
 from data_util.utils import calc_running_avg_loss
-from training_ptr_gen.train_util import get_input_from_batch, get_output_from_batch
+from training_ptr_gen.xing_train_util import get_output_from_batch, get_citing_context_from_batch
 
 use_cuda = config.use_gpu and torch.cuda.is_available()
 
@@ -76,7 +76,11 @@ class Train(object):
 
     def train_one_batch(self, batch):
         enc_batch, enc_padding_mask, enc_lens, enc_batch_extend_vocab, extra_zeros, c_t_1, coverage = \
-            get_input_from_batch(batch, use_cuda)
+            get_citing_context_from_batch(batch, use_cuda)
+
+        # enc_batch, enc_padding_mask, enc_lens, enc_batch_extend_vocab, extra_zeros, c_t_1, coverage = \
+        #     get_cited_abstract_from_batch(batch, use_cuda)
+
         dec_batch, dec_padding_mask, max_dec_len, dec_lens_var, target_batch = \
             get_output_from_batch(batch, use_cuda)
 

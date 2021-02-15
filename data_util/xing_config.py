@@ -2,15 +2,16 @@ import os
 
 # root_dir = '/home/mostendorff/experiments/pointer_summarizer/data'
 
-root_dir = './data'
+root_dir = './data/xing'
 
 
 #train_data_path = os.path.join(root_dir, "ptr_nw/cnn-dailymail-master/finished_files/train.bin")
-train_data_path = os.path.join(root_dir, "ptr_nw/cnn-dailymail-master/finished_files/chunked/train_*")
-eval_data_path = os.path.join(root_dir, "ptr_nw/cnn-dailymail-master/finished_files/val.bin")
-decode_data_path = os.path.join(root_dir, "ptr_nw/cnn-dailymail-master/finished_files/test.bin")
-vocab_path = os.path.join(root_dir, "ptr_nw/cnn-dailymail-master/finished_files/vocab")
-log_root = os.path.join(root_dir, "ptr_nw/log")
+train_data_path = os.path.join(root_dir, "train.jsonl")
+eval_data_path = os.path.join(root_dir, "test.jsonl")
+decode_data_path = os.path.join(root_dir, "test.jsonl")
+vocab_path = os.path.join(root_dir, "vocab")
+log_root = os.path.join(root_dir, "log")
+
 
 # Hyperparameters
 hidden_dim= 256

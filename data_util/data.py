@@ -100,9 +100,12 @@ def example_generator(data_path, single_pass):
             break
 
 
-def article2ids(article_words, vocab):
+def article2ids(article_words, vocab, oovs=None):
     ids = []
-    oovs = []
+
+    if oovs is None:
+        oovs = []
+
     unk_id = vocab.word2id(UNKNOWN_TOKEN)
     for w in article_words:
         i = vocab.word2id(w)
